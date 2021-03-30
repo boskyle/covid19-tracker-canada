@@ -9,9 +9,9 @@ class Super extends Component {
 
     render() {
         return (
-            <div className="containerFluid mainContainer">
+            <div className="mainContainer containerFluid d-flex align-items-center justify-content-center flex-column flex-xl-row">
             <Navigation/>
-            <h2>sup</h2>
+            <h2 className="border h-25">sup</h2>
             </div>
         );
     }

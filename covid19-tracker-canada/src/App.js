@@ -7,7 +7,7 @@ function App() {
     <Router>
       <div className="App">
         <Switch>       
-          <Route path='' component={Super}/>
+          <Route path='/' component={Super}/>
         </Switch>
       </div>
     </Router>

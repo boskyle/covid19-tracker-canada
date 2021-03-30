@@ -5,7 +5,7 @@ class Navigation extends Component {
 
     render() {
         return (
-            <h2>Navbar snackbar boop</h2>
+            <h2 className="align-self-xl-start">Navbar snackbar boop</h2>
         );
     }
 
