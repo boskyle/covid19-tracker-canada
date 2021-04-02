@@ -54,21 +54,26 @@ class Super extends Component {
             {/* <Navigation/> */}
                 <div className="row no-gutters h-100">
 
-                    <div className="col-sm-3 border d-flex flex-column align-items-center justify-content-start">
+                    <div className="col-md-3 p-2 d-flex flex-column align-items-center justify-content-start">
+                        <div className="dashboard  w-100 h-100 card" style={{backgroundColor:'#6C8AD7'}}>
                         <h2 className="mt-5">Dashboard</h2>
-                    </div>
-                    <div className="col-sm-6 border d-flex flex-column align-items-center justify-content-center">
-                      
-                        <h2 className="bg-info card p-1 text-center">CANADA COVID19 TRACKER</h2>
-                        <div className="mapContainer d-flex flex-column align-items-center card" style={{marginBottom:'10%',backgroundColor:'#6C8AD7'}}>
-                        
-                            
+
                         </div>
                     </div>
+                    <div className="col-md-6 p-2 d-flex flex-column align-items-center justify-content-start">
+                      
+                        {/* <h2 className="bg-info card p-1 text-center">CANADA COVID19 TRACKER</h2> */}
+                        <div className="mapContainer d-flex flex-column align-items-center card mb-2" style={{backgroundColor:'#6C8AD7'}}>
+                        {/* MAP */}      
+                        </div>
+                        <div className="infoContainer w-100 h-25 card" style={{backgroundColor:'#6C8AD7'}}>MAP STATS</div>
+                        
+                    </div>
 
-                    <div className="col-sm-3 border d-flex flex-column align-items-center justify-content-start">
+                    <div className="col-md-3 p-2 d-flex flex-column align-items-center justify-content-start">
                    
-                        <h2 className="mt-5">Leaderboards</h2>
+                        <div className="leaderboard h-25 w-100 mb-2" style={{backgroundColor:'#6C8AD7'}}>Leaderboard Title</div>
+                        <div className="leaderboard h-75 w-100 " style={{backgroundColor:'#6C8AD7'}}>Leaderboard</div>
                        
                     </div>
                   
