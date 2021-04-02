@@ -60,17 +60,21 @@ class Super extends Component {
 
                         </div>
                     </div>
-                    <div className="col-md-6 p-2 d-flex flex-column align-items-center justify-content-start">
+                    <div className="col-md-7 p-2 d-flex flex-column align-items-center justify-content-start">
                       
                         {/* <h2 className="bg-info card p-1 text-center">CANADA COVID19 TRACKER</h2> */}
                         <div className="mapContainer d-flex flex-column align-items-center card mb-2" style={{backgroundColor:'#6C8AD7'}}>
                         {/* MAP */}      
                         </div>
-                        <div className="infoContainer w-100 h-25 card" style={{backgroundColor:'#6C8AD7'}}>MAP STATS</div>
+                        <div className="infoContainer w-100 h-25 card d-flex flex-column" style={{backgroundColor:'#6C8AD7'}}>
+                            <p>Lorem Ipsum lorem ipsum dolor sit ametDeserunt eu quis et voluptate labore fugiat aute id 
+                              
+                            </p>
+                            </div>
                         
                     </div>
 
-                    <div className="col-md-3 p-2 d-flex flex-column align-items-center justify-content-start">
+                    <div className="col-md-2 p-2 d-flex flex-column align-items-center justify-content-start">
                    
                         <div className="leaderboard h-25 w-100 mb-2" style={{backgroundColor:'#6C8AD7'}}>Leaderboard Title</div>
                         <div className="leaderboard h-75 w-100 " style={{backgroundColor:'#6C8AD7'}}>Leaderboard</div>

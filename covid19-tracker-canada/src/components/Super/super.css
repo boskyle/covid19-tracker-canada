@@ -12,6 +12,7 @@
 .dashboard,.mapContainer,.infoContainer,.leaderboard {
     -webkit-box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);     
     box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
+    overflow-y: auto;
 }
 
 
@@ -33,23 +34,14 @@
 }
 /* md */
 @media only screen and (min-width: 760px)  {
-    .mapContainer {
-        /* border: 5px solid yellow;     */
-        /* width: 85% !important; */
-    }
+
 }
 /* lg */
 @media only screen and (min-width: 992px) {
-    .mapContainer {
-        /* border: 5px solid orange;     */
-        /* width: 70% !important; */
-    }
+ 
 }
 /* xl */
 @media only screen and (min-width: 1200px) {
-    .mapContainer {
-        /* border: 5px solid red; */
-        /* width: 50% !important; */
-    }
+
 }
     
