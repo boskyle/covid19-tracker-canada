@@ -1,7 +1,9 @@
 import {Component} from 'react';
-import Navigation from '../Navigation/Navigation';
 import moment from 'moment';
 import './super.css';
+
+import { FormGroup,FormControlLabel,Checkbox} from '@material-ui/core';
+
 
 
 
@@ -9,9 +11,19 @@ class Super extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { data : []};
-   
+        this.state = { data : [],settings: {
+            checkedDaily : false, checkedWeekly : false, checkedMonthly : false
+        }};
+        this.handleChange = this.handleChange.bind(this);
+
     }
+    
+        handleChange(e) {
+            var setts = {...this.state.settings};
+            this.setState({setts,[e.target.name]: e.target.checked});     
+        }
+
+
 
     // called twice 1=> server 2=> client 
     // 1. after initial render when client receive data from server.
@@ -33,9 +45,9 @@ class Super extends Component {
                 .then(data => {
                     console.log(data.cases[0]);
                     console.log(data.cases[0].cases);
+                    // destructure json from the api
                     const {cases,cum_cases:cumulative_cases,province} = data.cases[0];
-                    console.log(cases);
-           
+                    console.log(cases);        
                 });
     }
 
@@ -48,19 +60,28 @@ class Super extends Component {
     }
 
     render() {
-        console.log(this.state.data);
+        console.log(this.state.settings);
         return (
             <div className="mainContainer containerFluid">
             {/* <Navigation/> */}
-                <div className="row no-gutters h-100">
+                <div className="row no-gutters h-100" style={{overflow: 'auto'}}>
 
-                    <div className="col-md-3 p-2 d-flex flex-column align-items-center justify-content-start">
+                    <div className="col-xl-2 p-2 d-flex flex-column align-items-center justify-content-start">
                         <div className="dashboard  w-100 h-100 card" style={{backgroundColor:'#6C8AD7'}}>
                         <h2 className="mt-5">Dashboard</h2>
 
+                                <Checkbox
+                            checked={this.state.settings.checkedDaily}
+                            onChange={this.handleChange}
+                            name="checkedDaily"
+                            color="primary"
+                        />
+                        
+                   
+                       
                         </div>
                     </div>
-                    <div className="col-md-7 p-2 d-flex flex-column align-items-center justify-content-start">
+                    <div className="col-xl-8 p-2 d-flex flex-column align-items-center justify-content-start">
                       
                         {/* <h2 className="bg-info card p-1 text-center">CANADA COVID19 TRACKER</h2> */}
                         <div className="mapContainer d-flex flex-column align-items-center card mb-2" style={{backgroundColor:'#6C8AD7'}}>
@@ -74,7 +95,7 @@ class Super extends Component {
                         
                     </div>
 
-                    <div className="col-md-2 p-2 d-flex flex-column align-items-center justify-content-start">
+                    <div className="col-xl-2 p-2 d-flex flex-column align-items-center justify-content-start">
                    
                         <div className="leaderboard h-25 w-100 mb-2" style={{backgroundColor:'#6C8AD7'}}>Leaderboard Title</div>
                         <div className="leaderboard h-75 w-100 " style={{backgroundColor:'#6C8AD7'}}>Leaderboard</div>
