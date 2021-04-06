@@ -58,7 +58,7 @@ class Super extends Component {
 
     componentDidUpdate() {
         console.log(this.state.province);
-        let foo = new Province('ontario');
+        let foo = new Province(this.state.province);
         console.log(foo.getProvinceCode());
     }
 
