@@ -2,7 +2,7 @@ import {Component} from 'react';
 import moment from 'moment';
 import './super.css';
 
-import { FormGroup,FormControlLabel,Checkbox} from '@material-ui/core';
+import {FormControl,FormLabel,FormGroup,FormControlLabel,Checkbox,RadioGroup,Radio} from '@material-ui/core';
 
 
 
@@ -11,17 +11,16 @@ class Super extends Component {
 
     constructor(props) {
         super(props);
-        this.state = { data : [],settings: {
-            checkedDaily : false, checkedWeekly : false, checkedMonthly : false
-        }};
+        this.state = { data : [],option_one: 'daily'};
         this.handleChange = this.handleChange.bind(this);
 
     }
     
-        handleChange(e) {
-            var setts = {...this.state.settings};
-            this.setState({setts,[e.target.name]: e.target.checked});     
-        }
+    handleChange = e => {
+        this.setState({option_one: e.target.value});
+    }
+    
+
 
 
 
@@ -56,11 +55,11 @@ class Super extends Component {
     }
 
     componentDidUpdate() {
-    
+        console.log(this.state.option_one);
     }
 
     render() {
-        console.log(this.state.settings);
+        
         return (
             <div className="mainContainer containerFluid">
             {/* <Navigation/> */}
@@ -68,14 +67,22 @@ class Super extends Component {
 
                     <div className="col-xl-2 p-2 d-flex flex-column align-items-center justify-content-start">
                         <div className="dashboard  w-100 h-100 card" style={{backgroundColor:'#6C8AD7'}}>
-                        <h2 className="mt-5">Dashboard</h2>
+                        <h2 className="mt-5 text-center">DASHBOARD</h2>
 
-                                <Checkbox
-                            checked={this.state.settings.checkedDaily}
-                            onChange={this.handleChange}
-                            name="checkedDaily"
-                            color="primary"
-                        />
+
+                        <FormControl component="fieldset">
+                          
+                            <FormGroup className="mt-5 p-1">
+                                <FormLabel component="legend">Option</FormLabel>
+                                    <RadioGroup value={this.state.option_one} onChange={this.handleChange} className="w-100 d-flex flex-row justify-content-center">
+                                        <FormControlLabel  value="daily" control={<Radio color="primary" />} label="Daily" />
+                                        <FormControlLabel  value="weekly" control={<Radio color="primary" />} label="Weekly" />
+                                        <FormControlLabel  value="monthly" control={<Radio color="primary" />} label="Monthly" />
+                                    </RadioGroup>
+                            </FormGroup>
+
+                        </FormControl>
+                     
                         
                    
                        
