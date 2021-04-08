@@ -2,12 +2,14 @@ import {Component} from 'react';
 import moment from 'moment';
 import './super.css';
 import Province from './classes/Province';
+import ProvinceInformation from './classes/ProvinceInformation';
 
-import {FormControl,FormLabel,FormGroup,FormControlLabel,Checkbox,RadioGroup,Radio,NativeSelect} from '@material-ui/core';
+import {FormControl,FormLabel,FormGroup,FormControlLabel,RadioGroup,Radio,NativeSelect} from '@material-ui/core';
 
 
 
 
+// View
 class Super extends Component {
 
     constructor(props) {
@@ -34,32 +36,29 @@ class Super extends Component {
     //     console.log('Super mounted.');
     //     fetch()
     // }
+    
+
+    // MVC => VIEW
     componentDidMount() {
         console.log('Super mounted.');
         let date = new Date();
         date.setDate(date.getDate() -1);
 
+        // MVC => MODEL
+        let foo = new ProvinceInformation(this.state.province);
+        foo.getData();
         let fDate = moment(date).format('YYYY-MM-DD');
-        console.log(fDate);
-        fetch(`https://api.opencovid.ca/timeseries?stat=cases&loc=ON&date=${fDate}`)
-            .then(response => response.json())
-                .then(data => {
-                    console.log(data.cases[0]);
-                    console.log(data.cases[0].cases);
-                    // destructure json from the api
-                    const {cases,cum_cases:cumulative_cases,province} = data.cases[0];
-                    console.log(cases);        
-                });
     }
 
     componentWillUnmount() {
         console.log('Super unmounted.');
     }
 
-    componentDidUpdate() {
-        console.log(this.state.province);
-        let foo = new Province(this.state.province);
-        console.log(foo.getProvinceCode());
+        // MVC => VIEW
+    componentDidUpdate() { 
+        let foo = new ProvinceInformation(this.state.province);
+        foo.getData();
+        console.log(foo.display());
     }
 
     render() {
@@ -71,7 +70,7 @@ class Super extends Component {
 
                     <div className="col-xl-2 p-2 d-flex flex-column align-items-center justify-content-start">
                         <div className="dashboard  w-100 h-100 card" style={{backgroundColor:'#6C8AD7'}}>
-                        <h2 className="mt-5 text-center">DASHBOARD</h2>
+                        <h2 className="mt-5 text-center">BOARD</h2>
 
 
                         <FormControl component="fieldset">
@@ -129,8 +128,8 @@ class Super extends Component {
 
                     <div className="col-xl-2 p-2 d-flex flex-column align-items-center justify-content-start">
                    
-                        <div className="leaderboard h-25 w-100 mb-2" style={{backgroundColor:'#6C8AD7'}}>Leaderboard Title</div>
-                        <div className="leaderboard h-75 w-100 " style={{backgroundColor:'#6C8AD7'}}>Leaderboard</div>
+                        {/* <div className="leaderboard h-25 w-100 mb-2" style={{backgroundColor:'#6C8AD7'}}>Leaderboard Title</div> */}
+                        <div className="leaderboard h-100 w-100 d-flex flex-column align-items-center" style={{backgroundColor:'#6C8AD7'}}>Leaderboard (All Provinces/Territories) Highest to lowest cases</div>
                        
                     </div>
                   
