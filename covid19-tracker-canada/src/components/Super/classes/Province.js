@@ -1,8 +1,12 @@
-import moment from 'moment';
-  // Controller
+import React from 'react';
+// Controller
 export default class Province {
-    constructor(province) {
+    constructor(province,date) {
         this._province = province;
+        this._date = date;
+        this._data = {};
+        this.child = React.createRef();
+
     }
 
  
@@ -26,9 +30,19 @@ export default class Province {
             case 'saskatchewan': return 'SK';
             case 'yukon': return 'YT';
             default: return 'RP';
-
         }
     }
+
+    getDate = () => {
+        return this._date; 
+    }
+
+    getInformation = () => {
+        return this.child.current.getData();
+    }
+
+   
+
 
 
 
