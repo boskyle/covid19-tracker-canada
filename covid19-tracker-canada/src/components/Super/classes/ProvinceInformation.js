@@ -1,29 +1,51 @@
-import Province from './Province';
+import moment from 'moment';
 
 
-// MVC => Model
-export default class ProvinceInformation extends Province {
+ class ProvinceInformation {
     constructor (province,date) {
-        super(province,date);
+        this._province = province;
+        this._date = date;
     }
 
-    async getData() {
-        console.log(this.getDate());
-        let nd = this.getDate();
-        let dataInformation;
-        let baseUrl=`https://api.opencovid.ca/timeseries?stat=cases&loc=${this.getProvinceCode()}&date=${nd}`;
-        await fetch(baseUrl)
-        .then(response => response.json())
-            .then(data => {               
-                /*destructure json from the api*/
-                //  const {cases,cum_cases:cumulative_cases,province} = data.cases[0];
-                dataInformation = data;
-            
-        });
-        return dataInformation;
-        }
+
+
+
+getProvinceCode = (province) => {
+    switch (province){
+        case 'alberta': return 'AB';
+        case 'british-columbia': return 'BC';
+        case 'manitoba': return 'MB';
+        case 'new-brunswick': return 'NB';
+        case 'new-foundland-and-labrador': return 'NL';
+        case 'northwest-territories': return 'NT';
+        case 'nova-scotia': return 'NS';
+        case 'ontario': return 'ON';
+        case 'pei': return 'PE';
+        case 'quebec': return 'QC';
+        case 'saskatchewan': return 'SK';
+        case 'yukon': return 'YT';
+        default: return 'RP';
+    }
+}
+
+getFormattedDate = (date) => {
+    return moment(date).format('DD-MM-YYYY');
+}
+
+
+
+async getData(province,cur_date) {
+ let loc = this.getProvinceCode(province);
+ let date = this.getFormattedDate(cur_date);
+ let baseUrl=`https://api.opencovid.ca/timeseries?stat=cases&loc=${loc}&date=${date}`;
+ 
+return await fetch(baseUrl).then(data => data.json());
 
 }
+
+}
+
+export default ProvinceInformation;
 
 
 

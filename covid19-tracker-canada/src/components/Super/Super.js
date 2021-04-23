@@ -1,13 +1,9 @@
-import {Component,Fragment} from 'react';
-import moment from 'moment';
+import {Component} from 'react';
 import './super.css';
 import Province from './classes/Province';
-import ProvinceInformation from './classes/ProvinceInformation';
-
 import {FormControl,FormLabel,FormGroup,FormControlLabel,RadioGroup,Radio,NativeSelect} from '@material-ui/core';
-import {Slider,Typography} from '@material-ui/core';
 import MomentUtils from '@date-io/moment';
-import {MuiPickersUtilsProvider,DatePicker, KeyboardDatePicker } from "@material-ui/pickers";
+import {MuiPickersUtilsProvider,DatePicker} from "@material-ui/pickers";
 
 
 
@@ -44,35 +40,29 @@ class Super extends Component {
     // }
     
 
-    // MVC => Controller
+
     componentDidMount() {
         console.log('Super mounted.');
-        // MVC => MODEL
-        let foo = new ProvinceInformation(this.state.province,moment(this.state.date).format('DD-MM-YYYY'));
-        foo.getData();
-     
-
     }
 
     componentWillUnmount() {
         console.log('Super unmounted.');
     }
 
-        // MVC => Controller
-    componentDidUpdate() { 
-        console.log(moment(this.state.date).format('YYYY-MM-DD'));
-        // MVC => Model
-        let foo = new ProvinceInformation(this.state.province,moment(this.state.date).format('DD-MM-YYYY'));
 
-        foo.getData().then((data) =>
-        {
-            console.log(data.cases);
-        });
+    componentDidUpdate() { 
+
+        let foo = new Province();
+        foo.findData(this.state.province,this.state.date);
+        // let foo = new ProvinceInformation(this.state.province,moment(this.state.date).format('DD-MM-YYYY'));
+        // foo.getData().then((data) =>
+        // {
+        //     console.log(data.cases);
+        // });
 
       
     }
 
-    // MVC = View
     render() {
         
         return (
