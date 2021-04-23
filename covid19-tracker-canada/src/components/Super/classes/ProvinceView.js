@@ -1,8 +1,14 @@
+import {Component} from 'react';
 
-class ProvinceView {
+class ProvinceView extends Component {
 
-    displayData = (data) => {
-        console.log(data);
+constructor(props) {
+    super(props);
+}
+
+
+    displayData = ({cases}) => {
+       console.log(cases);
     }
 }
 

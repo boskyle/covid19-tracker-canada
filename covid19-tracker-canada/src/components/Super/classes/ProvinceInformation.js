@@ -34,13 +34,14 @@ getFormattedDate = (date) => {
 
 
 
-async getData(province,cur_date) {
+ async getData(province,cur_date) {
  let loc = this.getProvinceCode(province);
  let date = this.getFormattedDate(cur_date);
  let baseUrl=`https://api.opencovid.ca/timeseries?stat=cases&loc=${loc}&date=${date}`;
- 
-return await fetch(baseUrl).then(data => data.json());
 
+const response = await fetch(baseUrl);
+const data = response.json();
+return data;
 }
 
 }
