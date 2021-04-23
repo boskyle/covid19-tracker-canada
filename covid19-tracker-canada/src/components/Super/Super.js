@@ -47,9 +47,6 @@ class Super extends Component {
     // MVC => Controller
     componentDidMount() {
         console.log('Super mounted.');
-        // let date = new Date();
-        // date.setDate(date.getDate() -1);
-        // let fDate = moment(date).format('YYYY-MM-DD');
         // MVC => MODEL
         let foo = new ProvinceInformation(this.state.province,moment(this.state.date).format('DD-MM-YYYY'));
         foo.getData();
@@ -64,6 +61,7 @@ class Super extends Component {
         // MVC => Controller
     componentDidUpdate() { 
         console.log(moment(this.state.date).format('YYYY-MM-DD'));
+        // MVC => Model
         let foo = new ProvinceInformation(this.state.province,moment(this.state.date).format('DD-MM-YYYY'));
 
         foo.getData().then((data) =>
@@ -74,7 +72,7 @@ class Super extends Component {
       
     }
 
-    // View
+    // MVC = View
     render() {
         
         return (

@@ -4,9 +4,6 @@ export default class Province {
     constructor(province,date) {
         this._province = province;
         this._date = date;
-        this._data = {};
-        this.child = React.createRef();
-
     }
 
  
@@ -36,15 +33,6 @@ export default class Province {
     getDate = () => {
         return this._date; 
     }
-
-    getInformation = () => {
-        return this.child.current.getData();
-    }
-
-   
-
-
-
 
 
 };

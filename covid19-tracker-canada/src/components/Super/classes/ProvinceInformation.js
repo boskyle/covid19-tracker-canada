@@ -7,8 +7,6 @@ export default class ProvinceInformation extends Province {
         super(province,date);
     }
 
-
-
     async getData() {
         console.log(this.getDate());
         let nd = this.getDate();
