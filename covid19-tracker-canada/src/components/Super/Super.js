@@ -5,41 +5,34 @@ import {FormControl,FormLabel,FormGroup,FormControlLabel,RadioGroup,Radio,Native
 import MomentUtils from '@date-io/moment';
 import {MuiPickersUtilsProvider,DatePicker} from "@material-ui/pickers";
 
-
-
-
-
-// View
 class Super extends Component {
    
 
     constructor(props) {
         super(props);
-        this.state = { data : {},option_one: 'daily',province:'alberta',date:new Date()};
+        this.state = {
+            board:  {    option_one: 'daily',
+                         province:'alberta',
+                         date:new Date()
+                },
+            data: {}
+        }
         this.handleChange = this.handleChange.bind(this);
         this.handleProvinceChange = this.handleProvinceChange.bind(this);
 
     }
     
     handleChange = e => {
-        this.setState({option_one: e.target.value});
+        let board = {...this.state.board};
+        board.option_one = e.target.value;
+        this.setState({board});
     }
     handleProvinceChange = e => {
-        const name = e.target.name;     
-        this.setState({...this.state,[name]: e.target.value})
+        // const name = e.target.name;     
+        let board = {...this.state.board};
+        board.province =  e.target.value;
+        this.setState({board});
     }
-
-
-    // called twice 1=> server 2=> client 
-    // 1. after initial render when client receive data from server.
-    // 2. before data is displayed in the browser.
-
-    // componentWillMount() {
-    //     console.log('Super mounted.');
-    //     fetch()
-    // }
-    
-
 
     componentDidMount() {
         console.log('Super mounted.');
@@ -49,18 +42,10 @@ class Super extends Component {
         console.log('Super unmounted.');
     }
 
-
     componentDidUpdate() { 
-
         let foo = new Province();
-        foo.findData(this.state.province,this.state.date);
-        // let foo = new ProvinceInformation(this.state.province,moment(this.state.date).format('DD-MM-YYYY'));
-        // foo.getData().then((data) =>
-        // {
-        //     console.log(data.cases);
-        // });
-
-      
+        foo.findData(this.state.board.province,this.state.board.date);
+        console.log(this.state.board);
     }
 
     render() {
@@ -79,7 +64,7 @@ class Super extends Component {
                             <FormGroup className="mt-5 p-1">
                             <FormLabel component="legend">Province/Territory</FormLabel>
                                 <NativeSelect
-                                value={this.state.province}
+                                value={this.state.board.province}
                                 onChange={this.handleProvinceChange}        
                                 inputProps={{name: 'province'}}
                                 >
@@ -128,8 +113,12 @@ class Super extends Component {
                                 <DatePicker
                                 variant="inline"
                                 label="Date"
-                                value={this.state.date}
-                                onChange={(newVal) => this.setState({date: newVal})}/>
+                                value={this.state.board.date}
+                                onChange={(newVal) => {
+                                    let board = {...this.state.board};
+                                    board.date = newVal;
+                                    this.setState({board});
+                                }}/>
                               </MuiPickersUtilsProvider>
                          
                   
@@ -152,7 +141,7 @@ class Super extends Component {
                         </div>
                         <div className="infoContainer w-100 h-25 card d-flex flex-column" style={{backgroundColor:'#6C8AD7'}}>
                            
-                            </div>
+                        </div>
                         
                     </div>
 
