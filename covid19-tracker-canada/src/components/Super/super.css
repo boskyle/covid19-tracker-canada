@@ -1,12 +1,11 @@
 .mainContainer {
     height: 100vh;
-    background-image: linear-gradient( to bottom,#48c6ef , #6f86d6);
+    background-color: #5aa897;
     
 }
 .mapContainer {
-    width: 100% !important;
+    width: 75%;
     height: 75%;
-  
 }
 
 .dashboard,.mapContainer,.infoContainer,.leaderboard {
@@ -32,8 +31,14 @@
         height: 100%;
     }
 }
-/* md */
-@media only screen and (min-width: 760px)  {
+/* md =>  760px or below*/
+@media only screen and (max-width: 760px)  {
+    .first-column {
+        height: 25%;
+    }
+    .second-column {
+        height: 75%;
+    }
 
 }
 /* lg */

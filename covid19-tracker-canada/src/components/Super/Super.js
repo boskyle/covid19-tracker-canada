@@ -55,8 +55,8 @@ class Super extends Component {
             {/* <Navigation/> */}
                 <div className="row no-gutters h-100" style={{overflow: 'auto'}}>
 
-                    <div className="col-xl-2 p-2 d-flex flex-column align-items-center justify-content-start">
-                        <div className="dashboard  w-100 h-100 card" style={{backgroundColor:'#6C8AD7'}}>
+                    <div className="col-md-2 p-2 d-flex flex-column align-items-center justify-content-center first-column">
+                        <div className="dashboard  w-100 h-75 card" style={{backgroundColor:'#6C8AD7'}}>
                         <h2 className="mt-5 text-center">BOARD</h2>
 
 
@@ -133,27 +133,22 @@ class Super extends Component {
                        
                         </div>
                     </div>
-                    <div className="col-xl-8 p-2 d-flex flex-column align-items-center justify-content-start">
+                    <div className="col-md-10 p-2 d-flex flex-column align-items-center justify-content-center second-column">
                       
                         {/* <h2 className="bg-info card p-1 text-center">CANADA COVID19 TRACKER</h2> */}
-                        <div className="mapContainer d-flex flex-column align-items-center card mb-2" style={{backgroundColor:'#6C8AD7'}}>
+                        <div className="mapContainer d-flex flex-column align-items-center card mb-2 h-75" style={{backgroundColor:'#6C8AD7'}}>
                         {/* MAP */}      
                         </div>
-                        <div className="infoContainer w-100 h-25 card d-flex flex-column" style={{backgroundColor:'#6C8AD7'}}>
-                           
-                        </div>
+                  
                         
                     </div>
 
-                    <div className="col-xl-2 p-2 d-flex flex-column align-items-center justify-content-start">
+                    {/* <div className="col-xl-2 p-2 d-flex flex-column align-items-center justify-content-start">
                    
-                        {/* <div className="leaderboard h-25 w-100 mb-2" style={{backgroundColor:'#6C8AD7'}}>Leaderboard Title</div> */}
+                   
                         <div className="leaderboard h-100 w-100 d-flex flex-column align-items-center" style={{backgroundColor:'#6C8AD7'}}><h2>leaderboard highest to lowest</h2></div>
                        
-                    </div>
-                  
-
-                    
+                    </div>                                  */}
                 </div>
             </div>
         );
