@@ -5,10 +5,8 @@ class ProvinceView extends Component {
 constructor(props) {
     super(props);
 }
-
-
-    displayData = ({cases}) => {
-       console.log(cases);
+    displayData = (data) => {
+       console.log(data);
     }
 }
 
