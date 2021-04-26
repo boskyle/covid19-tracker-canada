@@ -41,24 +41,26 @@ init = () => {
 
 
  async getData(province,cur_date) {
+
+    // transform input to formatted to be inserted to async fetch
  let loc = this.getProvinceCode(province);
  let date = this.getFormattedDate(cur_date);
- let baseUrl=`https://api.opencovid.ca/timeseries?stat=cases&loc=${loc}&date=${date}`;
- let response = await fetch(baseUrl);
- let data = response.json();
- let foo = await this.additionalData();
- let buff;
- foo.map(x => {
-     if (x.short === loc) {
-         buff = x;
-        
-     }
- })
- console.log(buff);
-return {data,buff};
+
+ let covidInfo = await this.getCovid(loc,date);
+ let provArray = await this.additionalData();
+ let provInfo;
+ provArray.map(x => {
+     if (x.short === loc) {provInfo = x;}})
+return {covidInfo,provInfo};
 }
 
 
+ async getCovid(loc,date) {
+    let baseUrl = `https://api.opencovid.ca/timeseries?stat=cases&loc=${loc}&date=${date}`;
+    let response = await fetch(baseUrl);
+    let data = response.json();
+    return data;
+ }
  async additionalData() {
     let baseUrl = 'https://raw.githubusercontent.com/Clavicus/Testing-Requests/master/canadian-provinces.json';
     const resp = await fetch (baseUrl);

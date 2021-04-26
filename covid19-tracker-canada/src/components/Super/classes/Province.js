@@ -10,8 +10,7 @@ export default class Province extends ProvinceInformation
 
    findData = (province,date) => {
         let provinceViewObj = new ProvinceView();
-        this.getData(province,date).then((data) => provinceViewObj.displayData(data));
-        
+        this.getData(province,date).then((data) => provinceViewObj.displayData(data)); 
 }
 
 

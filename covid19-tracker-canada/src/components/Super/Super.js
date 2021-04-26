@@ -36,6 +36,8 @@ class Super extends Component {
 
     componentDidMount() {
         console.log('Super mounted.');
+        let foo = new Province();
+        foo.findData(this.state.board.province,this.state.board.date);
     }
 
     componentWillUnmount() {
@@ -43,9 +45,9 @@ class Super extends Component {
     }
 
     componentDidUpdate() { 
+        console.log('Super updated.');
         let foo = new Province();
         foo.findData(this.state.board.province,this.state.board.date);
-        console.log(this.state.board);
     }
 
     render() {
