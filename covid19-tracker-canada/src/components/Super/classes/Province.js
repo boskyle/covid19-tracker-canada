@@ -4,13 +4,15 @@ import ProvinceView from './ProvinceView';
 // Controller
 export default class Province extends ProvinceInformation
 {
-    constructor(province,date) {
-        super(province,date);
+    constructor(province,prevProvince,date) {
+        super(province,prevProvince,date);
     }
 
-   findData = (province,date) => {
+   findData = (province,prevProvince,date) => {
         let provinceViewObj = new ProvinceView();
-        this.getData(province,date).then((data) => provinceViewObj.displayData(data)); 
+        this.getData(province,prevProvince,date).then((data) => {
+        provinceViewObj.displayData(data);
+        }); 
 }
 
 

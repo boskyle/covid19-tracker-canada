@@ -2,8 +2,9 @@ import moment from 'moment';
 
 
 class ProvinceInformation {
-    constructor (province,date) {
+    constructor (province,prevProvince,date) {
         this._province = province;
+        this._prevProvince = prevProvince;
         this._date = date;
     }
 
@@ -34,23 +35,20 @@ getFormattedDate = (date) => {
 }
 
 
-init = () => {
 
-}
-
-
-
- async getData(province,cur_date) {
-
+async getData(province,prevProvince,cur_date) {
     // transform input to formatted to be inserted to async fetch
- let loc = this.getProvinceCode(province);
- let date = this.getFormattedDate(cur_date);
+let loc = this.getProvinceCode(province);
+let date = this.getFormattedDate(cur_date);
+let covidInfo; 
+let provArray;
+covidInfo = await this.getCovid(loc,date);
+provArray = await this.additionalData();
 
- let covidInfo = await this.getCovid(loc,date);
- let provArray = await this.additionalData();
- let provInfo;
- provArray.map(x => {
-     if (x.short === loc) {provInfo = x;}})
+let provInfo;
+provArray.map(x => {if (x.short === loc) {provInfo = x;}})
+console.log(date);
+console.log(covidInfo);
 return {covidInfo,provInfo};
 }
 

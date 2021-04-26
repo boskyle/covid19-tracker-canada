@@ -4,6 +4,7 @@ import Province from './classes/Province';
 import {FormControl,FormLabel,FormGroup,FormControlLabel,RadioGroup,Radio,NativeSelect} from '@material-ui/core';
 import MomentUtils from '@date-io/moment';
 import {MuiPickersUtilsProvider,DatePicker} from "@material-ui/pickers";
+import ProvinceInformation from './classes/ProvinceInformation';
 
 class Super extends Component {
    
@@ -15,7 +16,9 @@ class Super extends Component {
                          province:'alberta',
                          date:new Date()
                 },
-            data: {}
+            information: {
+                data: ''
+            }
         }
         this.handleChange = this.handleChange.bind(this);
         this.handleProvinceChange = this.handleProvinceChange.bind(this);
@@ -36,22 +39,35 @@ class Super extends Component {
 
     componentDidMount() {
         console.log('Super mounted.');
-        let foo = new Province();
-        foo.findData(this.state.board.province,this.state.board.date);
+        // let foo = new Province();
+        // foo.findData(this.state.board.province,this.state.board.date);
+        let foo2 = new ProvinceInformation();
+        foo2.getData(this.state.board.province,this.state.board.date).then((data) => {
+            let info = {...this.state.information};
+            info.data = data;
+            this.setState({info});
+            console.log(this.state);
+        });
     }
 
     componentWillUnmount() {
         console.log('Super unmounted.');
     }
 
-    componentDidUpdate() { 
+    componentDidUpdate(prevProps,prevState) { 
         console.log('Super updated.');
-        let foo = new Province();
-        foo.findData(this.state.board.province,this.state.board.date);
+        // let foo = new Province();
+        // foo.findData(this.state.board.province,prevState.board.province,this.state.board.date);
+        let foo2 = new ProvinceInformation();
+        foo2.getData(this.state.board.province,this.state.board.date).then((data) => {
+            console.log(data);
+        });
+   
     }
 
     render() {
         
+        console.log(this.state.information);
         return (
             <div className="mainContainer containerFluid">
             {/* <Navigation/> */}
@@ -139,6 +155,7 @@ class Super extends Component {
                       
                         {/* <h2 className="bg-info card p-1 text-center">CANADA COVID19 TRACKER</h2> */}
                         <div className="mapContainer d-flex flex-column align-items-center card mb-2 h-75" style={{backgroundColor:'#6C8AD7'}}>
+                      
                         {/* MAP */}      
                         </div>
                   
