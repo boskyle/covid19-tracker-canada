@@ -17,7 +17,12 @@ class Super extends Component {
                          date:new Date()
                 },
             information: {
-                covidInfo :'Todays covid information is still being updated',
+                covidInfo : {
+                    cases: 'To be updated..',
+                    cumulative_cases: 'To be updated..',
+                    date_report: 'To be updated..',
+                    province: 'To be updated..'
+                },
                 provInfo: ''      
             }
         }
@@ -43,7 +48,16 @@ class Super extends Component {
 
         let foo2 = new ProvinceInformation();
         foo2.getData(this.state.board.province,this.state.board.date).then((data) => {
-            // this.setState({data});
+            let {covidInfo,provInfo} = data;
+                let information = {...this.state.information};
+
+                if (covidInfo.cases[0] !== undefined) {
+                    information.covidInfo = covidInfo.cases[0];
+                    console.log(covidInfo.cases[0]);
+                }
+                information.provInfo = provInfo;
+                this.setState({information});
+                console.log(this.state.information.covidInfo);
         });
     }
 
@@ -64,12 +78,17 @@ class Super extends Component {
                 if (covidInfo.cases[0] !== undefined) {
                     information.covidInfo = covidInfo.cases[0];
                     console.log(covidInfo.cases[0]);
+                } else {
+                    information.covidInfo.cases = 
+                    information.covidInfo.cumulative_cases = 
+                    information.covidInfo.date_report =
+                    information.covidInfo.province = "not avaiable yet...";
                 }
                 information.provInfo = provInfo;
                 this.setState({information});
-
-                console.log(this.state);
-          
+                console.log(this.state.information.covidInfo.cases);
+             
+      
             
             }
         });
