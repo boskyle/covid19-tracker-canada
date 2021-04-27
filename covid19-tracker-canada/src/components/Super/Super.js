@@ -5,7 +5,7 @@ import {FormControl,FormLabel,FormGroup,FormControlLabel,RadioGroup,Radio,Native
 import MomentUtils from '@date-io/moment';
 import {MuiPickersUtilsProvider,DatePicker} from "@material-ui/pickers";
 import ProvinceInformation from './classes/ProvinceInformation';
-
+import moment from 'moment';
 class Super extends Component {
    
 
@@ -17,7 +17,8 @@ class Super extends Component {
                          date:new Date()
                 },
             information: {
-                data: ''
+                covidInfo :'Todays covid information is still being updated',
+                provInfo: ''      
             }
         }
         this.handleChange = this.handleChange.bind(this);
@@ -39,14 +40,10 @@ class Super extends Component {
 
     componentDidMount() {
         console.log('Super mounted.');
-        // let foo = new Province();
-        // foo.findData(this.state.board.province,this.state.board.date);
+
         let foo2 = new ProvinceInformation();
         foo2.getData(this.state.board.province,this.state.board.date).then((data) => {
-            let info = {...this.state.information};
-            info.data = data;
-            this.setState({info});
-            console.log(this.state);
+            // this.setState({data});
         });
     }
 
@@ -56,18 +53,32 @@ class Super extends Component {
 
     componentDidUpdate(prevProps,prevState) { 
         console.log('Super updated.');
-        // let foo = new Province();
-        // foo.findData(this.state.board.province,prevState.board.province,this.state.board.date);
         let foo2 = new ProvinceInformation();
         foo2.getData(this.state.board.province,this.state.board.date).then((data) => {
-            console.log(data);
+            // if prev state board not the same as current
+            // => no changes are occuring unless there is!
+            if(!Object.is(prevState.board,this.state.board)) {
+                let {covidInfo,provInfo} = data;
+                let information = {...this.state.information};
+
+                if (covidInfo.cases[0] !== undefined) {
+                    information.covidInfo = covidInfo.cases[0];
+                    console.log(covidInfo.cases[0]);
+                }
+                information.provInfo = provInfo;
+                this.setState({information});
+
+                console.log(this.state);
+          
+            
+            }
         });
    
     }
 
     render() {
         
-        console.log(this.state.information);
+
         return (
             <div className="mainContainer containerFluid">
             {/* <Navigation/> */}
@@ -155,6 +166,8 @@ class Super extends Component {
                       
                         {/* <h2 className="bg-info card p-1 text-center">CANADA COVID19 TRACKER</h2> */}
                         <div className="mapContainer d-flex flex-column align-items-center card mb-2 h-75" style={{backgroundColor:'#6C8AD7'}}>
+                            <h2>{moment(this.state.board.date).format('DD.MM.YYYY')}</h2>
+                            <h2>{this.state.information.covidInfo.cases}</h2>
                       
                         {/* MAP */}      
                         </div>

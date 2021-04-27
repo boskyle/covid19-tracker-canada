@@ -36,7 +36,7 @@ getFormattedDate = (date) => {
 
 
 
-async getData(province,prevProvince,cur_date) {
+async getData(province,cur_date) {
     // transform input to formatted to be inserted to async fetch
 let loc = this.getProvinceCode(province);
 let date = this.getFormattedDate(cur_date);
@@ -47,8 +47,6 @@ provArray = await this.additionalData();
 
 let provInfo;
 provArray.map(x => {if (x.short === loc) {provInfo = x;}})
-console.log(date);
-console.log(covidInfo);
 return {covidInfo,provInfo};
 }
 
