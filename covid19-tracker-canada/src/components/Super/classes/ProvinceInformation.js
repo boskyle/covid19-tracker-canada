@@ -30,6 +30,7 @@ getProvinceCode = (province) => {
     }
 }
 
+// this format is used for the api fetch
 getFormattedDate = (curDate,option) => {
   
     let last7 = new Date(curDate);
@@ -40,6 +41,24 @@ getFormattedDate = (curDate,option) => {
         default: return curDate;
     }
     
+}
+// this format is used for display purposes 
+getFormattedDateDisplay =(curDate,option) => {
+    let last7 = new Date(curDate);
+    switch (option) {
+        case 'daily': return moment(curDate).format('MMM Do YYYY');
+        case 'weekly': last7.setDate(last7.getDate() -7); return [moment(curDate).format('MMM Do YYYY'),moment(last7).format('MMM Do YYYY')];
+        case 'monthly': last7.setDate(last7.getDate() -30); return [moment(curDate).format('MMM Do YYYY'),moment(last7).format('MMM Do YYYY')];
+        default: return curDate;
+    }
+
+}
+
+displayDate(date) {
+   if(Array.isArray(date)) {
+        return `${date[1]} TO ${date[0]}`;
+    }
+        return date;
 }
 
 
@@ -58,8 +77,11 @@ provArray = await this.additionalData();
 let provInfo;
 provArray.map(x => {if (x.short === loc) {provInfo = x;}})
 
+var myDate = '';
+myDate = this.displayDate(this.getFormattedDateDisplay(cur_date,option));
+console.log(myDate);
 
-return {covidInfo,provInfo,date};
+return {covidInfo,provInfo,myDate};
 }
 
 

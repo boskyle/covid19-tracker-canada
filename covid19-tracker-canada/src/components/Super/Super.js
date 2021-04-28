@@ -14,7 +14,7 @@ class Super extends Component {
         this.state = {
             board:  {    option_one: 'daily',
                          province:'alberta',
-                         date:new Date()
+                         date:this.goToYesterday(new Date())
                 },
             information: {
                 covidInfo : {
@@ -23,7 +23,9 @@ class Super extends Component {
                     date_report: 'not avaiable yet...',
                     province: 'not avaiable yet...'
                 },
-                provInfo: ''      
+                provInfo: ''   ,
+                retDate: ''
+
             }
         }
         this.handleChange = this.handleChange.bind(this);
@@ -43,12 +45,21 @@ class Super extends Component {
         this.setState({board});
     }
 
+    goToYesterday = (today) => {
+
+        let yesterday = new Date(today);
+        yesterday.setDate(yesterday.getDate() - 1);
+        return yesterday;
+    }
+
     componentDidMount() {
         console.log('Super mounted.');
-   
+
+        // have a onMount date format for render visual 
+        
         let foo2 = new ProvinceInformation();
-        foo2.getData(this.state.board.province,this.state.board.date).then((data) => {
-            let {covidInfo,provInfo} = data;
+        foo2.getData(this.state.board.province,this.state.board.date,this.state.board.option_one).then((data) => {
+            let {covidInfo,provInfo,myDate} = data;
                 let information = {...this.state.information};
 
                 if (covidInfo.cases[0] !== undefined) {
@@ -56,8 +67,12 @@ class Super extends Component {
                     console.log(covidInfo.cases[0]);
                 }
                 information.provInfo = provInfo;
+                information.retDate = myDate;
                 this.setState({information});
-                console.log(this.state.information.covidInfo);
+
+                // get initial date format
+                
+          
         });
     }
 
@@ -72,7 +87,7 @@ class Super extends Component {
             // if prev state board not the same as current
             // => no changes are occuring unless there is!
             if(!Object.is(prevState.board,this.state.board)) {
-                let {covidInfo,provInfo,date} = data;
+                let {covidInfo,provInfo,myDate} = data;
                 let information = {...this.state.information};
                 
                 if (covidInfo.cases[0] !== undefined) {
@@ -93,14 +108,14 @@ class Super extends Component {
                     information.covidInfo.province = "not avaiable yet...";
                 }
                 information.provInfo = provInfo;
+                information.retDate = myDate;
                 this.setState({information});
+                console.log(this.state.information.retDate);
+         
             }
         });
 
-       let x = foo2.getFormattedDate(this.state.board.date);
-        console.log(x);
 
-   
     }
 
     render() {
@@ -193,10 +208,10 @@ class Super extends Component {
                       
                         {/* <h2 className="bg-info card p-1 text-center">CANADA COVID19 TRACKER</h2> */}
                         <div className="mapContainer d-flex flex-column align-items-center card mb-2 h-75 p-5" style={{backgroundColor:'#6C8AD7'}}>
-                            <h2>{"Date: "+this.state.board.date}</h2>
+                            <h2>{this.state.information.retDate}</h2>
                             <h1>{this.state.information.provInfo.name}</h1>
-                            <h2>cases:  {this.state.information.covidInfo.cases}</h2>
-                            <h2>total cases: {this.state.information.covidInfo.cumulative_cases}</h2>
+                            <h2>{this.state.board.option_one} cases:  {this.state.information.covidInfo.cases}</h2>
+                            
                       
                         {/* MAP */}      
                         </div>
