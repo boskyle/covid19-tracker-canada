@@ -18,10 +18,10 @@ class Super extends Component {
                 },
             information: {
                 covidInfo : {
-                    cases: 'To be updated..',
-                    cumulative_cases: 'To be updated..',
-                    date_report: 'To be updated..',
-                    province: 'To be updated..'
+                    cases: 'not avaiable yet...',
+                    cumulative_cases: 'not avaiable yet...',
+                    date_report: 'not avaiable yet...',
+                    province: 'not avaiable yet...'
                 },
                 provInfo: ''      
             }
@@ -45,7 +45,7 @@ class Super extends Component {
 
     componentDidMount() {
         console.log('Super mounted.');
-
+   
         let foo2 = new ProvinceInformation();
         foo2.getData(this.state.board.province,this.state.board.date).then((data) => {
             let {covidInfo,provInfo} = data;
@@ -68,16 +68,24 @@ class Super extends Component {
     componentDidUpdate(prevProps,prevState) { 
         console.log('Super updated.');
         let foo2 = new ProvinceInformation();
-        foo2.getData(this.state.board.province,this.state.board.date).then((data) => {
+        foo2.getData(this.state.board.province,this.state.board.date,this.state.board.option_one).then((data) => {
             // if prev state board not the same as current
             // => no changes are occuring unless there is!
             if(!Object.is(prevState.board,this.state.board)) {
-                let {covidInfo,provInfo} = data;
+                let {covidInfo,provInfo,date} = data;
                 let information = {...this.state.information};
-
+                
                 if (covidInfo.cases[0] !== undefined) {
                     information.covidInfo = covidInfo.cases[0];
-                    console.log(covidInfo.cases[0]);
+                    /*map through array of cases if weekly / monthly then sum it up*/
+                    if (this.state.board.option_one === "weekly" || this.state.board.option_one === "monthly") {
+                        let sum = 0;
+                        covidInfo.cases.map(obj => {
+                            sum += obj.cases;
+                        })
+                        information.covidInfo.cases = sum;
+                        console.log(sum);
+                    }
                 } else {
                     information.covidInfo.cases = 
                     information.covidInfo.cumulative_cases = 
@@ -86,12 +94,12 @@ class Super extends Component {
                 }
                 information.provInfo = provInfo;
                 this.setState({information});
-                console.log(this.state.information.covidInfo.cases);
-             
-      
-            
             }
         });
+
+       let x = foo2.getFormattedDate(this.state.board.date);
+        console.log(x);
+
    
     }
 
@@ -103,13 +111,13 @@ class Super extends Component {
             {/* <Navigation/> */}
                 <div className="row no-gutters h-100" style={{overflow: 'auto'}}>
 
-                    <div className="col-md-2 p-2 d-flex flex-column align-items-center justify-content-center first-column">
+                    <div className="col-md-3 p-5 d-flex flex-column align-items-center justify-content-center first-column">
                         <div className="dashboard  w-100 h-75 card" style={{backgroundColor:'#6C8AD7'}}>
                         <h2 className="mt-5 text-center">BOARD</h2>
 
 
                         <FormControl component="fieldset">
-                            <FormGroup className="mt-5 p-1">
+                            <FormGroup className="mt-5">
                             <FormLabel component="legend">Province/Territory</FormLabel>
                                 <NativeSelect
                                 value={this.state.board.province}
@@ -134,7 +142,7 @@ class Super extends Component {
                           
                             <FormGroup className="mt-5 p-1">
                                 <FormLabel component="legend">Option</FormLabel>
-                                    <RadioGroup value={this.state.option_one} onChange={this.handleChange} className="w-100 d-flex flex-row justify-content-center">
+                                    <RadioGroup defaultValue="daily" value={this.state.option_one} onChange={this.handleChange} className="w-100 d-flex flex-row justify-content-center">
                                         <FormControlLabel  value="daily" control={<Radio color="primary" />} label="Daily" />
                                         <FormControlLabel  value="weekly" control={<Radio color="primary" />} label="Weekly" />
                                         <FormControlLabel  value="monthly" control={<Radio color="primary" />} label="Monthly" />
@@ -164,7 +172,7 @@ class Super extends Component {
                                 value={this.state.board.date}
                                 onChange={(newVal) => {
                                     let board = {...this.state.board};
-                                    board.date = newVal;
+                                    board.date = moment(newVal).format('YYYY-MM-DD');
                                     this.setState({board});
                                 }}/>
                               </MuiPickersUtilsProvider>
@@ -181,12 +189,14 @@ class Super extends Component {
                        
                         </div>
                     </div>
-                    <div className="col-md-10 p-2 d-flex flex-column align-items-center justify-content-center second-column">
+                    <div className="col-md-9 p-2 d-flex flex-column align-items-center justify-content-center second-column">
                       
                         {/* <h2 className="bg-info card p-1 text-center">CANADA COVID19 TRACKER</h2> */}
-                        <div className="mapContainer d-flex flex-column align-items-center card mb-2 h-75" style={{backgroundColor:'#6C8AD7'}}>
-                            <h2>{moment(this.state.board.date).format('DD.MM.YYYY')}</h2>
-                            <h2>{this.state.information.covidInfo.cases}</h2>
+                        <div className="mapContainer d-flex flex-column align-items-center card mb-2 h-75 p-5" style={{backgroundColor:'#6C8AD7'}}>
+                            <h2>{"Date: "+this.state.board.date}</h2>
+                            <h1>{this.state.information.provInfo.name}</h1>
+                            <h2>cases:  {this.state.information.covidInfo.cases}</h2>
+                            <h2>total cases: {this.state.information.covidInfo.cumulative_cases}</h2>
                       
                         {/* MAP */}      
                         </div>
