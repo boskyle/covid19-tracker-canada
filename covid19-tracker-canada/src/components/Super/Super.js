@@ -126,7 +126,7 @@ class Super extends Component {
             {/* <Navigation/> */}
                 <div className="row no-gutters h-100" style={{overflow: 'auto'}}>
 
-                    <div className="col-lg-3 p-5 d-flex flex-column align-items-center justify-content-center first-column">
+                    <div className="col-0  col-xl-3 d-flex flex-column align-items-center justify-content-center first-column p-5">
                         <div className="dashboard  w-100 h-75 card" style={{backgroundColor:'#6C8AD7'}}>
                         <h2 className="mt-5 text-center">BOARD</h2>
 
@@ -204,7 +204,7 @@ class Super extends Component {
                        
                         </div>
                     </div>
-                    <div className="col-lg-9 d-flex flex-column align-items-center justify-content-center second-column">
+                    <div className="col-12 col-xl-9  d-flex flex-column align-items-center justify-content-center second-column">
                       
                         {/* <h2 className="bg-info card p-1 text-center">CANADA COVID19 TRACKER</h2> */}
                         <div className="mapContainer d-flex flex-column align-items-center card mb-2 h-75" style={{backgroundColor:'#6C8AD7'}}>

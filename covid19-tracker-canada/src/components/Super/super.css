@@ -1,6 +1,6 @@
 .mainContainer {
     height: 100vh;
-    background-color: #5aa897;
+    /* background-color: #5aa897; */
     
 }
 .mapContainer {
@@ -42,13 +42,19 @@ box-shadow: 16px 1px 5px -11px rgba(0,0,0,0.51);
 }
 /* md =>  760px or below*/
 @media only screen and (max-width: 760px)  {
-    .first-column {
-        height: 25%;
-    }
-    .second-column {
-        height: 75%;
+    .mapContainer {
+        height: 100% !important;
     }
 
+
+}
+@media only screen and (max-width: 1200px ){
+    .first-column {
+        display: none !important;
+    }
+    .second-column {
+        height: 100%;
+    }
 }
 /* lg */
 @media only screen and (min-width: 992px) {
