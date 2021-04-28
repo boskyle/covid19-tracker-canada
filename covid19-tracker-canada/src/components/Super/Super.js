@@ -204,13 +204,29 @@ class Super extends Component {
                        
                         </div>
                     </div>
-                    <div className="col-md-9 p-2 d-flex flex-column align-items-center justify-content-center second-column">
+                    <div className="col-md-9 d-flex flex-column align-items-center justify-content-center second-column">
                       
                         {/* <h2 className="bg-info card p-1 text-center">CANADA COVID19 TRACKER</h2> */}
-                        <div className="mapContainer d-flex flex-column align-items-center card mb-2 h-75 p-5" style={{backgroundColor:'#6C8AD7'}}>
-                            <h2>{this.state.information.retDate}</h2>
-                            <h1>{this.state.information.provInfo.name}</h1>
-                            <h2>{this.state.board.option_one} cases:  {this.state.information.covidInfo.cases}</h2>
+                        <div className="mapContainer d-flex flex-column align-items-center card mb-2 h-75" style={{backgroundColor:'#6C8AD7'}}>
+
+                            <div className="row no-gutters h-100 w-100">
+                                <div className="col-md-3 d-flex flex-column align-items-center">
+                                    <div className="h-100 w-100 card leaderboardWrapper text-center">
+                                        <small className="mt-2">Leaderboard</small>
+                                    </div>
+                                </div>
+                                <div className="col-md-9 p-3 d-flex flex-column  align-items-center justify-content-center">
+
+                                    <div className="p-5 text-center card covidWrapper">
+                                    <h1 className="display">{this.state.information.provInfo.name}</h1>
+                                    <h2>{this.state.information.retDate}</h2>
+                                    <h2>{this.state.board.option_one} cases:  {this.state.information.covidInfo.cases}</h2>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        
                             
                       
                         {/* MAP */}      

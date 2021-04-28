@@ -6,14 +6,24 @@
 .mapContainer {
     width: 80%;
     height: 75%;
+    font-family: raleway-light;
 }
 
-.dashboard,.mapContainer,.infoContainer,.leaderboard {
+.dashboard,.mapContainer,.infoContainer,.leaderboard,.covidWrapper {
     -webkit-box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);     
     box-shadow: 0px 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
     overflow-y: auto;
 }
 
+.leaderboard-container {
+-webkit-box-shadow: 16px 1px 5px -11px rgba(0,0,0,0.51);
+-moz-box-shadow: 16px 1px 5px -11px rgba(0,0,0,0.51);
+box-shadow: 16px 1px 5px -11px rgba(0,0,0,0.51);
+}
+
+.leaderboardWrapper, .covidWrapper {
+    background-color: #8fd9a8 !important;
+}
 
 
 /* xs */

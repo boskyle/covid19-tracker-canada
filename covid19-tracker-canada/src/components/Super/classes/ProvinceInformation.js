@@ -56,7 +56,7 @@ getFormattedDateDisplay =(curDate,option) => {
 
 displayDate(date) {
    if(Array.isArray(date)) {
-        return `${date[1]} TO ${date[0]}`;
+        return `${date[1]} to ${date[0]}`;
     }
         return date;
 }
