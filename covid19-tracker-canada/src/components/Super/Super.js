@@ -109,11 +109,11 @@ class Super extends Component {
                 }
                 information.provInfo = provInfo;
                 information.retDate = myDate;
-                this.setState({information});
-                console.log(this.state.information.retDate);
-         
+                this.setState({information});         
             }
         });
+
+        foo2.getLeaderboard(this.state.board.date,this.state.board.option_one);
 
 
     }
@@ -209,10 +209,10 @@ class Super extends Component {
                         {/* <h2 className="bg-info card p-1 text-center">CANADA COVID19 TRACKER</h2> */}
                         <div className="mapContainer d-flex flex-column align-items-center card mb-2 h-75" style={{backgroundColor:'#6C8AD7'}}>
 
-                            <div className="row no-gutters h-100 w-100">
+                            <div className="row no-gutters h-100 w-100 p-3">
                                 <div className="col-md-3 d-flex flex-column align-items-center">
                                     <div className="h-100 w-100 card leaderboardWrapper text-center">
-                                        <small className="mt-2">Leaderboard</small>
+                                        
                                     </div>
                                 </div>
                                 <div className="col-md-9 p-3 d-flex flex-column  align-items-center justify-content-center">

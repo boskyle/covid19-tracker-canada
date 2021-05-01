@@ -30,9 +30,14 @@ getProvinceCode = (province) => {
     }
 }
 
+
+
 // this format is used for the api fetch
 getFormattedDate = (curDate,option) => {
   
+
+
+
     let last7 = new Date(curDate);
     switch (option) {
         case 'daily': return moment(curDate).format('DD-MM-YYYY');
@@ -79,7 +84,7 @@ provArray.map(x => {if (x.short === loc) {provInfo = x;}})
 
 var myDate = '';
 myDate = this.displayDate(this.getFormattedDateDisplay(cur_date,option));
-console.log(myDate);
+
 
 return {covidInfo,provInfo,myDate};
 }
@@ -100,6 +105,20 @@ return {covidInfo,provInfo,myDate};
     const resp = await fetch (baseUrl);
     const data = resp.json();
     return data;
+}
+ getLeaderboard(cur_date,option) {
+    var date = this.getFormattedDate(cur_date,option);
+    var promises = [];
+    var PR_CODES=['AB','BC','MB','NB','NL','NT','NU','NS','ON','PE','QC','SK','YT'];
+    var baseUrl='';
+    for (let i =0; i<PR_CODES.length; i++) {
+        if (!Array.isArray(date)) {
+            baseUrl = `https://api.opencovid.ca/timeseries?stat=cases&loc=${PR_CODES[i]}&date=${date};`
+        }
+            baseUrl = `https://api.opencovid.ca/timeseries?stat=cases&loc=${PR_CODES[i]}&before=${date[0]}&after=${date[1]}`
+        promises.push(fetch(baseUrl));
+    }
+    Promise.all(promises).then(data => data.json()).then(data => console.log(data));
 }
 
 }
