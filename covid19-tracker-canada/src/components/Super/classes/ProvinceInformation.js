@@ -117,11 +117,15 @@ return {covidInfo,provInfo,myDate};
 
         // if date is single (no range)
         if (!Array.isArray(date)) {
-            baseUrl = `https://api.opencovid.ca/timeseries?stat=cases&loc=${PR_CODES[i]}&before=${date}after=${date}`;
+            console.log(date);
+            baseUrl = `https://api.opencovid.ca/timeseries?stat=cases&loc=${PR_CODES[i]}&date=${date}`;
+            
       
-        } 
+        }else if (Array.isArray(date)){
             baseUrl = `https://api.opencovid.ca/timeseries?stat=cases&loc=${PR_CODES[i]}&before=${date[0]}&after=${date[1]}`;
-            promises.push(fetch(baseUrl));
+        } else {console.log("not applicable api..")}
+        
+         promises.push(fetch(baseUrl));
     }
     
     return Promise.all(promises);
