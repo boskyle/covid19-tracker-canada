@@ -23,9 +23,9 @@ class Super extends Component {
                     date_report: 'not avaiable yet...',
                     province: 'not avaiable yet...'
                 },
-                provInfo: ''   ,
-                retDate: ''
-
+            provInfo: ''   ,
+            retDate: '',
+            leaderboard: []
             }
         }
         this.handleChange = this.handleChange.bind(this);
@@ -113,7 +113,33 @@ class Super extends Component {
             }
         });
 
-        foo2.getLeaderboard(this.state.board.date,this.state.board.option_one);
+        foo2.getLeaderboard(this.state.board.date,this.state.board.option_one).then(x => {
+
+            if(!Object.is(prevState.board,this.state.board)) {
+                /*
+                x is an array of responses to be fetched..
+                pipe the response to be json object so I can extract data..
+                */          
+           
+               x.map(response => {
+                   let sum = 0;
+                   let tempArray = [];
+                   
+                  
+                    response.json()
+                    .then(dataArray => {
+                        console.log(dataArray.cases);
+                        dataArray.cases.map((data,index) => {
+                           
+                            sum += data.cases;
+                        })
+                        console.log("sum of the above: "+ sum);
+                
+                    });
+                })
+                
+            }
+        });
 
 
     }

@@ -108,17 +108,25 @@ return {covidInfo,provInfo,myDate};
 }
  getLeaderboard(cur_date,option) {
     var date = this.getFormattedDate(cur_date,option);
-    var promises = [];
+    console.log(date);
     var PR_CODES=['AB','BC','MB','NB','NL','NT','NU','NS','ON','PE','QC','SK','YT'];
     var baseUrl='';
+    let promises = [];
+    // iterate through all the provinces and territories
     for (let i =0; i<PR_CODES.length; i++) {
+
+        // if date is single (no range)
         if (!Array.isArray(date)) {
-            baseUrl = `https://api.opencovid.ca/timeseries?stat=cases&loc=${PR_CODES[i]}&date=${date};`
-        }
-            baseUrl = `https://api.opencovid.ca/timeseries?stat=cases&loc=${PR_CODES[i]}&before=${date[0]}&after=${date[1]}`
-        promises.push(fetch(baseUrl));
+            baseUrl = `https://api.opencovid.ca/timeseries?stat=cases&loc=${PR_CODES[i]}&before=${date}after=${date}`;
+      
+        } 
+            baseUrl = `https://api.opencovid.ca/timeseries?stat=cases&loc=${PR_CODES[i]}&before=${date[0]}&after=${date[1]}`;
+            promises.push(fetch(baseUrl));
     }
-    Promise.all(promises).then(data => data.json()).then(data => console.log(data));
+    
+    return Promise.all(promises);
+
+   
 }
 
 }
