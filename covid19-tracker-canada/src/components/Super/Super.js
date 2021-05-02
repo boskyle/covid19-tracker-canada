@@ -23,11 +23,12 @@ class Super extends Component {
                     date_report: 'not avaiable yet...',
                     province: 'not avaiable yet...'
                 },
-            provInfo: ''   ,
-            retDate: '',
+                provInfo: ''   ,
+                retDate: '',
+            },
             leaderboard: []
-            }
         }
+
         this.handleChange = this.handleChange.bind(this);
         this.handleProvinceChange = this.handleProvinceChange.bind(this);
 
@@ -64,7 +65,7 @@ class Super extends Component {
 
                 if (covidInfo.cases[0] !== undefined) {
                     information.covidInfo = covidInfo.cases[0];
-                    console.log(covidInfo.cases[0]);
+               
                 }
                 information.provInfo = provInfo;
                 information.retDate = myDate;
@@ -120,24 +121,40 @@ class Super extends Component {
                 x is an array of responses to be fetched..
                 pipe the response to be json object so I can extract data..
                 */          
-           
+               
+               let leaderboard = {...this.state.leaderboard};
+               let leaderboardArray = [];
+            
+            
                x.map(response => {
                    let sum = 0;
-                   let tempArray = [];
-                   
+
+                   const leaderboardObject = {
+                        provinceName : '',
+                        cases : 0,
+                   }
+
+            
+      
                   
                     response.json()
                     .then(dataArray => {
                         console.log(dataArray.cases);
+                        // iterate through weeekly,monthly cases and calculate sum
+                        console.log(dataArray.cases[0].province);
+                        // get the name of each province/territory
                         dataArray.cases.map((data,index) => {
-                           
                             sum += data.cases;
                         })
-                        console.log("sum of the above: "+ sum);
-                
+                       let leadObj = Object.create(leaderboardObject);
+                       leadObj.provinceName = dataArray.cases[0].province;
+                       leadObj.cases = sum;
+                        // compress these values to an array or a collection and setstate..
+                       console.log(leadObj);     
                     });
+                    
                 })
-                
+               
             }
         });
 

@@ -123,8 +123,8 @@ return {covidInfo,provInfo,myDate};
       
         }else if (Array.isArray(date)){
             baseUrl = `https://api.opencovid.ca/timeseries?stat=cases&loc=${PR_CODES[i]}&before=${date[0]}&after=${date[1]}`;
-        } else {console.log("not applicable api..")}
-        
+        } else {console.log("DATE INVALID")}
+
          promises.push(fetch(baseUrl));
     }
     
