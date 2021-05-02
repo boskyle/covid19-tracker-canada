@@ -122,11 +122,14 @@ class Super extends Component {
                 pipe the response to be json object so I can extract data..
                 */          
                
+               console.log("trig me once");
                let leaderboard = {...this.state.leaderboard};
-               let leaderboardArray = [];
+               var leaderboardArray = new Array(13);
+      
+    
             
             
-               x.map(response => {
+               x.map((response,index) => {
                    let sum = 0;
 
                    const leaderboardObject = {
@@ -134,14 +137,13 @@ class Super extends Component {
                         cases : 0,
                    }
 
-            
       
                   
                     response.json()
                     .then(dataArray => {
-                        console.log(dataArray.cases);
+                        // console.log(dataArray.cases);
                         // iterate through weeekly,monthly cases and calculate sum
-                        console.log(dataArray.cases[0].province);
+                        // console.log(dataArray.cases[0].province);
                         // get the name of each province/territory
                         dataArray.cases.map((data,index) => {
                             sum += data.cases;
@@ -150,15 +152,18 @@ class Super extends Component {
                        leadObj.provinceName = dataArray.cases[0].province;
                        leadObj.cases = sum;
                         // compress these values to an array or a collection and setstate..
-                       console.log(leadObj);     
+                    //    console.log({index,leadObj});
+                       leaderboardArray[index] = leadObj;     
                     });
-                    
+
+             
                 })
-               
+                leaderboard = leaderboardArray;
+                this.setState({leaderboard});
             }
         });
 
-
+        console.log(this.state.leaderboard);
     }
 
     render() {
