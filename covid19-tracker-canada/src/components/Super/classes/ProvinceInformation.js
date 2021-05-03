@@ -117,7 +117,7 @@ return {covidInfo,provInfo,myDate};
 
         // if date is single (no range)
         if (!Array.isArray(date)) {
-            console.log(date);
+          
             baseUrl = `https://api.opencovid.ca/timeseries?stat=cases&loc=${PR_CODES[i]}&date=${date}`;
             
       

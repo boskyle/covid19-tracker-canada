@@ -1,10 +1,10 @@
 import {Component} from 'react';
 import './super.css';
-import Province from './classes/Province';
 import {FormControl,FormLabel,FormGroup,FormControlLabel,RadioGroup,Radio,NativeSelect} from '@material-ui/core';
 import MomentUtils from '@date-io/moment';
 import {MuiPickersUtilsProvider,DatePicker} from "@material-ui/pickers";
 import ProvinceInformation from './classes/ProvinceInformation';
+import ProvinceLeaderboard from './components/ProvinceLeaderboard';
 import moment from 'moment';
 class Super extends Component {
    
@@ -26,7 +26,7 @@ class Super extends Component {
                 provInfo: ''   ,
                 retDate: '',
             },
-            leaderboard: []
+            leaderboard: [],
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -71,10 +71,54 @@ class Super extends Component {
                 information.retDate = myDate;
                 this.setState({information});
 
-                // get initial date format
-                
-          
+                // get initial date format    
         });
+
+        // get leaderboard
+
+        foo2.getLeaderboard(this.state.board.date,this.state.board.option_one).then(x => {
+   
+                /*
+                x is an array of responses to be fetched..
+                pipe the response to be json object so I can extract data..
+                */          
+               console.log("trig me once");
+               let leaderboard = {...this.state.leaderboard};
+               var leaderboardArray = new Array(13);
+             
+               x.map((response,index) => {
+                   let sum = 0;
+
+                   const leaderboardObject = {
+                        provinceName : '',
+                        cases : 0,
+                   }
+       
+                    response.json()
+                    .then(dataArray => {
+                        // console.log(dataArray.cases);
+                        // iterate through weeekly,monthly cases and calculate sum
+                        // console.log(dataArray.cases[0].province);
+                        // get the name of each province/territory
+                        dataArray.cases.map((data,index) => {
+                            sum += data.cases;
+                        })
+                       let leadObj = Object.create(leaderboardObject);
+                       try {
+                           leadObj.provinceName = dataArray.cases[0].province;
+                       } catch(err) {console.log(err);}
+                       leadObj.cases = sum;
+                        // compress these values to an array or a collection and setstate..
+                    //    console.log({index,leadObj});
+                       leaderboardArray[index] = leadObj;     
+                    });
+             
+                })
+                // attach leaderboard array to duplicate of leaderboard property state and set its
+                leaderboard = leaderboardArray;
+                this.setState({leaderboard});
+            
+        }); 
     }
 
     componentWillUnmount() {
@@ -83,8 +127,11 @@ class Super extends Component {
 
     componentDidUpdate(prevProps,prevState) { 
         console.log('Super updated.');
+
+
         let foo2 = new ProvinceInformation();
         foo2.getData(this.state.board.province,this.state.board.date,this.state.board.option_one).then((data) => {
+         
             // if prev state board not the same as current
             // => no changes are occuring unless there is!
             if(!Object.is(prevState.board,this.state.board)) {
@@ -113,7 +160,6 @@ class Super extends Component {
                 this.setState({information});         
             }
         });
-
         foo2.getLeaderboard(this.state.board.date,this.state.board.option_one).then(x => {
 
             if(!Object.is(prevState.board,this.state.board)) {
@@ -121,14 +167,10 @@ class Super extends Component {
                 x is an array of responses to be fetched..
                 pipe the response to be json object so I can extract data..
                 */          
-               
                console.log("trig me once");
                let leaderboard = {...this.state.leaderboard};
                var leaderboardArray = new Array(13);
-      
-    
-            
-            
+             
                x.map((response,index) => {
                    let sum = 0;
 
@@ -149,21 +191,22 @@ class Super extends Component {
                             sum += data.cases;
                         })
                        let leadObj = Object.create(leaderboardObject);
-                       leadObj.provinceName = dataArray.cases[0].province;
+                       try {
+                           leadObj.provinceName = dataArray.cases[0].province;
+                       } catch(err) {console.log(err);}
                        leadObj.cases = sum;
                         // compress these values to an array or a collection and setstate..
                     //    console.log({index,leadObj});
                        leaderboardArray[index] = leadObj;     
                     });
-
              
                 })
+
+                // attach leaderboard array to duplicate of leaderboard property state and set its
                 leaderboard = leaderboardArray;
                 this.setState({leaderboard});
             }
-        });
-
-        console.log(this.state.leaderboard);
+        }); 
     }
 
     render() {
@@ -260,7 +303,10 @@ class Super extends Component {
                             <div className="row no-gutters h-100 w-100 p-3">
                                 <div className="col-md-3 d-flex flex-column align-items-center">
                                     <div className="h-100 w-100 card leaderboardWrapper text-center">
-                                        
+                                        <ProvinceLeaderboard
+                                        board={this.state.board}
+                                        leaderboard={this.state.leaderboard}
+                                        />
                                     </div>
                                 </div>
                                 <div className="col-md-9 p-3 d-flex flex-column  align-items-center justify-content-center">
