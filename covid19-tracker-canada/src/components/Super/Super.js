@@ -31,6 +31,7 @@ class Super extends Component {
 
         this.handleChange = this.handleChange.bind(this);
         this.handleProvinceChange = this.handleProvinceChange.bind(this);
+     
 
     }
     
@@ -53,6 +54,57 @@ class Super extends Component {
         return yesterday;
     }
 
+ 
+    componentWillMount() {
+        console.log('i will be invoked before render');
+        let foo2 = new ProvinceInformation();
+    
+        foo2.getLeaderboard(this.state.board.date,this.state.board.option_one).then(x => {
+   
+            /*
+            x is an array of responses to be fetched..
+            pipe the response to be json object so I can extract data..
+            */          
+           console.log("trig me once");
+           var leaderboard = {...this.state.leaderboard};
+           var leaderboardArray = [];
+         
+           x.map((response,index) => {
+               let sum = 0;
+
+               const leaderboardObject = {
+                    provinceName : '',
+                    cases : 0,
+               }
+   
+                response.json()
+                .then(dataArray => {
+                    // console.log(dataArray.cases);
+                    // iterate through weeekly,monthly cases and calculate sum
+                    // console.log(dataArray.cases[0].province);
+                    // get the name of each province/territory
+                    dataArray.cases.map((data,index) => {
+                        sum += data.cases;
+                    })
+                   let leadObj = Object.create(leaderboardObject);
+                   try {
+                       leadObj.provinceName = dataArray.cases[0].province;
+                   } catch(err) {console.log(err);}
+                   leadObj.cases = sum;
+                    // compress these values to an array or a collection and setstate..
+                //    console.log({index,leadObj});
+                   leaderboardArray[index] = leadObj;     
+                });
+         
+            })
+            // attach leaderboard array to duplicate of leaderboard property state and set its
+            leaderboard = leaderboardArray;
+            this.setState({leaderboard});
+            console.log(this.state.leaderboard+this.state.board.option_one);    
+  
+    }); 
+
+    }
     componentDidMount() {
         console.log('Super mounted.');
 
@@ -74,51 +126,7 @@ class Super extends Component {
                 // get initial date format    
         });
 
-        // get leaderboard
-
-        foo2.getLeaderboard(this.state.board.date,this.state.board.option_one).then(x => {
-   
-                /*
-                x is an array of responses to be fetched..
-                pipe the response to be json object so I can extract data..
-                */          
-               console.log("trig me once");
-               let leaderboard = {...this.state.leaderboard};
-               var leaderboardArray = new Array(13);
-             
-               x.map((response,index) => {
-                   let sum = 0;
-
-                   const leaderboardObject = {
-                        provinceName : '',
-                        cases : 0,
-                   }
-       
-                    response.json()
-                    .then(dataArray => {
-                        // console.log(dataArray.cases);
-                        // iterate through weeekly,monthly cases and calculate sum
-                        // console.log(dataArray.cases[0].province);
-                        // get the name of each province/territory
-                        dataArray.cases.map((data,index) => {
-                            sum += data.cases;
-                        })
-                       let leadObj = Object.create(leaderboardObject);
-                       try {
-                           leadObj.provinceName = dataArray.cases[0].province;
-                       } catch(err) {console.log(err);}
-                       leadObj.cases = sum;
-                        // compress these values to an array or a collection and setstate..
-                    //    console.log({index,leadObj});
-                       leaderboardArray[index] = leadObj;     
-                    });
-             
-                })
-                // attach leaderboard array to duplicate of leaderboard property state and set its
-                leaderboard = leaderboardArray;
-                this.setState({leaderboard});
-            
-        }); 
+        // get leaderboard.. first mount
     }
 
     componentWillUnmount() {
@@ -160,17 +168,20 @@ class Super extends Component {
                 this.setState({information});         
             }
         });
-        foo2.getLeaderboard(this.state.board.date,this.state.board.option_one).then(x => {
+       
 
+
+        foo2.getLeaderboard(this.state.board.date,this.state.board.option_one).then(x => {
             if(!Object.is(prevState.board,this.state.board)) {
                 /*
                 x is an array of responses to be fetched..
                 pipe the response to be json object so I can extract data..
                 */          
-               console.log("trig me once");
+       
                let leaderboard = {...this.state.leaderboard};
-               var leaderboardArray = new Array(13);
-             
+               var leaderboardArray = [];
+
+                
                x.map((response,index) => {
                    let sum = 0;
 
@@ -179,7 +190,7 @@ class Super extends Component {
                         cases : 0,
                    }
 
-      
+                   
                   
                     response.json()
                     .then(dataArray => {
@@ -199,19 +210,21 @@ class Super extends Component {
                     //    console.log({index,leadObj});
                        leaderboardArray[index] = leadObj;     
                     });
-             
+                    
                 })
-
+                
                 // attach leaderboard array to duplicate of leaderboard property state and set its
                 leaderboard = leaderboardArray;
+                console.log(leaderboardArray);
                 this.setState({leaderboard});
+                
             }
         }); 
     }
 
     render() {
         
-
+   
         return (
             <div className="mainContainer containerFluid">
             {/* <Navigation/> */}
