@@ -1,4 +1,5 @@
 import {Component} from 'react';
+import './provinceLeaderboard.css';
 
 class ProvinceLeaderboard  extends Component {
 
@@ -6,7 +7,8 @@ class ProvinceLeaderboard  extends Component {
         super(props);
 
         this.state = {
-            updatedLeaderboard : []
+            updatedLeaderboard : [],
+            listItems: <li>Empty</li>
         }
 
     }
@@ -20,20 +22,30 @@ class ProvinceLeaderboard  extends Component {
     }
 
     componentDidMount() {
+        console.log("ProvinceLeaderboard mounted..");
+        console.log(this.props.leaderboard);
     }
 
     
     componentDidUpdate(prevProps,prevState) {
-        // slice b.c console.log doesnt update when new data is given..
-        console.log(this.props.board.option_one);
-        console.log(this.props.leaderboard);
-       
+        
+      
+
     }
  
 
     render() {  
+        console.table(this.state.updatedLeaderboard);
         return (
-            <h2 style={{position: 'absolute',top:'0.5em'}}>Highest to Lowest Cases</h2>
+            <>
+                <h4 sty>Leaderboard</h4>
+                {this.state.updatedLeaderboard.map((data,index) => (
+                    <div className="province-item card m-1">
+                        <p className="m-0">{index+1}. {data.name}</p>
+                <small className="m-0"><strong>{this.props.board.option_one} cases:  {data.cases_sum}</strong></small>
+                    </div>
+                ))}
+            </>
         );
     }
 }

@@ -59,47 +59,43 @@ class Super extends Component {
         console.log('i will be invoked before render');
         let foo2 = new ProvinceInformation();
     
-        foo2.getLeaderboard(this.state.board.date,this.state.board.option_one).then(x => {
+        foo2.getLeaderboard(this.state.board.date,this.state.board.option_one).then(response => {
    
             /*
             x is an array of responses to be fetched..
             pipe the response to be json object so I can extract data..
             */          
-           console.log("trig me once");
-           var leaderboard = {...this.state.leaderboard};
-           var leaderboardArray = [];
-         
-           x.map((response,index) => {
-               let sum = 0;
+           let leaderboard = {...this.state.leaderboard};
+           var promiseArray = [];
 
-               const leaderboardObject = {
-                    provinceName : '',
-                    cases : 0,
-               }
-   
-                response.json()
-                .then(dataArray => {
-                    // console.log(dataArray.cases);
-                    // iterate through weeekly,monthly cases and calculate sum
-                    // console.log(dataArray.cases[0].province);
-                    // get the name of each province/territory
-                    dataArray.cases.map((data,index) => {
-                        sum += data.cases;
-                    })
-                   let leadObj = Object.create(leaderboardObject);
-                   try {
-                       leadObj.provinceName = dataArray.cases[0].province;
-                   } catch(err) {console.log(err);}
-                   leadObj.cases = sum;
-                    // compress these values to an array or a collection and setstate..
-                //    console.log({index,leadObj});
-                   leaderboardArray[index] = leadObj;     
-                });
          
+            // an array of responses
+           response.map((responseObject,index) => {
+                //  push all the promises to an array and then consume it using promise.all  
+               promiseArray.push(responseObject.json());
+              
+            }) // end of response.map
+            Promise.all(promiseArray).then((values) => {
+                // values is an object array (based of all territories/provinces ON daily,weekly, and monthly)
+                // each object element will contain an array of cases based ON daily, weekly, and monthly
+                
+                // array of data objects depending on daily. weekly and mponthly
+           var provArray = values.map(dataObject => {
+                            let cases_sum = 0;
+                            let name = '';
+                            dataObject.cases.map(data => {
+                                cases_sum+=data.cases;
+                                name=data.province;
+                            })
+                            return ({name,cases_sum});
+                    })
+                provArray.sort((a,b) => b.cases_sum - a.cases_sum).map((data,index) => {
+                    console.table(index+1,data);
+                });
+
+                leaderboard = provArray;
+                this.setState({leaderboard});
             })
-            // attach leaderboard array to duplicate of leaderboard property state and set its
-            leaderboard = leaderboardArray;
-            this.setState({leaderboard});
   
     }); 
 
@@ -203,7 +199,7 @@ class Super extends Component {
                                 return ({name,cases_sum});
                         })
                     provArray.sort((a,b) => b.cases_sum - a.cases_sum).map((data,index) => {
-                        console.table(index+1,data);
+                        // console.table(index+1,data);
                     });
 
                     leaderboard = provArray;
@@ -226,7 +222,7 @@ class Super extends Component {
 
                     <div className="col-0  col-xl-3 d-flex flex-column align-items-center justify-content-center first-column p-5">
                         <div className="dashboard  w-100 h-75 card" style={{backgroundColor:'#6C8AD7'}}>
-                        <h2 className="mt-5 text-center">BOARD</h2>
+                        <h2 className="mt-5 text-center">Control Board</h2>
 
 
                         <FormControl component="fieldset">
@@ -305,11 +301,11 @@ class Super extends Component {
                     <div className="col-12 col-xl-9  d-flex flex-column align-items-center justify-content-center second-column">
                       
                         {/* <h2 className="bg-info card p-1 text-center">CANADA COVID19 TRACKER</h2> */}
-                        <div className="mapContainer d-flex flex-column align-items-center card mb-2 h-75" style={{backgroundColor:'#6C8AD7'}}>
+                        <div className="mapContainer d-flex flex-column align-items-center card mb-2" style={{backgroundColor:'#6C8AD7'}}>
 
                             <div className="row no-gutters h-100 w-100 p-3">
                                 <div className="col-md-3 d-flex flex-column align-items-center">
-                                    <div className="h-100 w-100 card leaderboardWrapper text-center">
+                                    <div className="h-100 w-100 card leaderboardWrapper text-center d-flex flex-column align-items-center">
                                         <ProvinceLeaderboard
                                         board={this.state.board}
                                         leaderboard={this.state.leaderboard}
