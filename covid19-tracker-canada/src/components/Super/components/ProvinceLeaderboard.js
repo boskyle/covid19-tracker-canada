@@ -6,7 +6,6 @@ class ProvinceLeaderboard  extends Component {
         super(props);
 
         this.state = {
-            realLeaderboard : [],
             updatedLeaderboard : []
         }
 
@@ -17,17 +16,21 @@ class ProvinceLeaderboard  extends Component {
 
 
     static getDerivedStateFromProps(props,state) {
-        return {realLeaderboard : props.leaderboard.sort((a,b) => b.cases - a.cases)};
+        return {updatedLeaderboard : props.leaderboard};
+    }
+
+    componentDidMount() {
     }
 
     
     componentDidUpdate(prevProps,prevState) {
-        
+        // slice b.c console.log doesnt update when new data is given..
+        console.log(this.props.leaderboard);
+       
     }
  
 
-    render() {
-    console.log(this.state.realLeaderboard);     
+    render() {  
         return (
             <h2 style={{position: 'absolute',top:'0.5em'}}>Highest to Lowest Cases</h2>
         );

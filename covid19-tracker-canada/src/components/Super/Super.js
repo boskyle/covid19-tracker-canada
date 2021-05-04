@@ -26,7 +26,7 @@ class Super extends Component {
                 provInfo: ''   ,
                 retDate: '',
             },
-            leaderboard: [],
+            leaderboard:[],
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -100,7 +100,6 @@ class Super extends Component {
             // attach leaderboard array to duplicate of leaderboard property state and set its
             leaderboard = leaderboardArray;
             this.setState({leaderboard});
-            console.log(this.state.leaderboard+this.state.board.option_one);    
   
     }); 
 
@@ -172,6 +171,7 @@ class Super extends Component {
 
 
         foo2.getLeaderboard(this.state.board.date,this.state.board.option_one).then(x => {
+
             if(!Object.is(prevState.board,this.state.board)) {
                 /*
                 x is an array of responses to be fetched..
@@ -190,8 +190,6 @@ class Super extends Component {
                         cases : 0,
                    }
 
-                   
-                  
                     response.json()
                     .then(dataArray => {
                         // console.log(dataArray.cases);
@@ -204,27 +202,34 @@ class Super extends Component {
                        let leadObj = Object.create(leaderboardObject);
                        try {
                            leadObj.provinceName = dataArray.cases[0].province;
+                           leadObj.cases = sum;
                        } catch(err) {console.log(err);}
-                       leadObj.cases = sum;
                         // compress these values to an array or a collection and setstate..
                     //    console.log({index,leadObj});
-                       leaderboardArray[index] = leadObj;     
+
+                    // leaderboard[index] = leadObj;   
+                    leaderboardArray.push(leadObj);
+                    
+                      
                     });
                     
+                
                 })
                 
                 // attach leaderboard array to duplicate of leaderboard property state and set its
+                // leaderboard = leaderboardArray;
+               
                 leaderboard = leaderboardArray;
-                console.log(leaderboardArray);
                 this.setState({leaderboard});
-                
+          
+    
             }
         }); 
     }
 
     render() {
         
-   
+  
         return (
             <div className="mainContainer containerFluid">
             {/* <Navigation/> */}
