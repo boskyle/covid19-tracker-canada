@@ -106,7 +106,7 @@ return {covidInfo,provInfo,myDate};
     const data = resp.json();
     return data;
 }
- getLeaderboard(cur_date,option) {
+ async getLeaderboard(cur_date,option) {
     var date = this.getFormattedDate(cur_date,option);
     // console.log(date);
     var PR_CODES=['AB','BC','MB','NB','NL','NT','NU','NS','ON','PE','QC','SK','YT'];

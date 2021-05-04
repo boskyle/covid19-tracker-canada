@@ -170,7 +170,7 @@ class Super extends Component {
        
 
 
-        foo2.getLeaderboard(this.state.board.date,this.state.board.option_one).then(x => {
+        foo2.getLeaderboard(this.state.board.date,this.state.board.option_one).then(response => {
 
             if(!Object.is(prevState.board,this.state.board)) {
                 /*
@@ -179,48 +179,37 @@ class Super extends Component {
                 */          
        
                let leaderboard = {...this.state.leaderboard};
-               var leaderboardArray = [];
+               var promiseArray = [];
 
-                
-               x.map((response,index) => {
-                   let sum = 0;
-
-                   const leaderboardObject = {
-                        provinceName : '',
-                        cases : 0,
-                   }
-
-                    response.json()
-                    .then(dataArray => {
-                        // console.log(dataArray.cases);
-                        // iterate through weeekly,monthly cases and calculate sum
-                        // console.log(dataArray.cases[0].province);
-                        // get the name of each province/territory
-                        dataArray.cases.map((data,index) => {
-                            sum += data.cases;
+             
+                // an array of responses
+               response.map((responseObject,index) => {
+                    //  push all the promises to an array and then consume it using promise.all  
+                   promiseArray.push(responseObject.json());
+                  
+                }) // end of response.map
+                Promise.all(promiseArray).then((values) => {
+                    // values is an object array (based of all territories/provinces ON daily,weekly, and monthly)
+                    // each object element will contain an array of cases based ON daily, weekly, and monthly
+                    
+                    // array of data objects depending on daily. weekly and mponthly
+               var provArray = values.map(dataObject => {
+                                let cases_sum = 0;
+                                let name = '';
+                                dataObject.cases.map(data => {
+                                    cases_sum+=data.cases;
+                                    name=data.province;
+                                })
+                                return ({name,cases_sum});
                         })
-                       let leadObj = Object.create(leaderboardObject);
-                       try {
-                           leadObj.provinceName = dataArray.cases[0].province;
-                           leadObj.cases = sum;
-                       } catch(err) {console.log(err);}
-                        // compress these values to an array or a collection and setstate..
-                    //    console.log({index,leadObj});
-
-                    // leaderboard[index] = leadObj;   
-                    leaderboardArray.push(leadObj);
-                    
-                      
+                    provArray.sort((a,b) => b.cases_sum - a.cases_sum).map((data,index) => {
+                        console.table(index+1,data);
                     });
-                    
-                
+
+                    leaderboard = provArray;
+                    this.setState({leaderboard});
                 })
-                
-                // attach leaderboard array to duplicate of leaderboard property state and set its
-                // leaderboard = leaderboardArray;
-               
-                leaderboard = leaderboardArray;
-                this.setState({leaderboard});
+      
           
     
             }

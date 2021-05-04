@@ -25,6 +25,7 @@ class ProvinceLeaderboard  extends Component {
     
     componentDidUpdate(prevProps,prevState) {
         // slice b.c console.log doesnt update when new data is given..
+        console.log(this.props.board.option_one);
         console.log(this.props.leaderboard);
        
     }
