@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/static/css/main.6ebb5e97.chunk.css",
+    "main.js": "/static/js/main.a8db6a6a.chunk.js",
+    "main.js.map": "/static/js/main.a8db6a6a.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.53bb1cf8.js",
+    "runtime-main.js.map": "/static/js/runtime-main.53bb1cf8.js.map",
+    "static/js/2.b97c0edc.chunk.js": "/static/js/2.b97c0edc.chunk.js",
+    "static/js/2.b97c0edc.chunk.js.map": "/static/js/2.b97c0edc.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.6ebb5e97.chunk.css.map": "/static/css/main.6ebb5e97.chunk.css.map",
+    "static/js/2.b97c0edc.chunk.js.LICENSE.txt": "/static/js/2.b97c0edc.chunk.js.LICENSE.txt",
+    "static/media/index.css": "/static/media/Raleway-Light.f25e9b3a.ttf"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.53bb1cf8.js",
+    "static/js/2.b97c0edc.chunk.js",
+    "static/css/main.6ebb5e97.chunk.css",
+    "static/js/main.a8db6a6a.chunk.js"
+  ]
+}
